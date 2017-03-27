@@ -197,9 +197,6 @@ public class ForecastFragment extends Fragment {
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
 
-        for (String s : resultStrs) {
-            Log.v(LOG_TAG, "Forecast entry: " + s);
-        }
         return resultStrs;
 
     }
@@ -217,7 +214,7 @@ public class ForecastFragment extends Fragment {
             String[] arrayWeatherForecast;
             // Will contain the raw JSON response as a string.
             String forecastJsonStr;
-
+            int numberDays = 7;
             try {
                 // Construct the URL for the OpenWeatherMap query
                 // Possible parameters are avaiable at OWM's forecast API page, at
@@ -227,11 +224,9 @@ public class ForecastFragment extends Fragment {
                         .appendQueryParameter("q", params[0])
                         .appendQueryParameter("mode", "json")
                         .appendQueryParameter("units", "metric")
-                        .appendQueryParameter("cnt", "7")
+                        .appendQueryParameter("cnt", Integer.toString(numberDays))
                         .appendQueryParameter("APPID", "bd43965b0c9589a6f81dd32284526b99")
                         .build();
-
-                Log.v(LOG_TAG, "Url string: " + builtUri.toString());
 
                 URL url = new URL(builtUri.toString());
 
@@ -263,9 +258,7 @@ public class ForecastFragment extends Fragment {
                 }
                 forecastJsonStr = buffer.toString();
 
-                Log.v(LOG_TAG, "Forecast JSON String: " + forecastJsonStr);
-
-                arrayWeatherForecast = getWeatherDataFromJson(forecastJsonStr, 7);
+                arrayWeatherForecast = getWeatherDataFromJson(forecastJsonStr, numberDays);
 
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
@@ -291,6 +284,18 @@ public class ForecastFragment extends Fragment {
             }
 
             return arrayWeatherForecast;
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+
+            if (result != null) {
+                mForecastAdapter.clear();
+
+                for (String str : result) {
+                    mForecastAdapter.add(str);
+                }
+            }
         }
     }
 }
