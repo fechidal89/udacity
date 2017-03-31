@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -105,7 +105,10 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String weatherDay = mForecastAdapter.getItem(position);
-                Toast.makeText(getActivity(), weatherDay, Toast.LENGTH_LONG).show();
+                Intent showDetail = new Intent(getActivity(), DetailActivity.class);
+                showDetail.putExtra(Intent.EXTRA_TEXT, weatherDay);
+
+                startActivity(showDetail);
             }
         });
 
