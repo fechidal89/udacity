@@ -8,4 +8,8 @@
     <string name="refresh_label">Refresh</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+
+    <string name="pref_location_label" translatable="false">Location</string>
+    <string name="pref_location_key" translatable="false">location</string>
+    <string name="pref_location_value" translatable="false">94043</string>
 </resources>
